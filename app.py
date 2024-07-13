@@ -38,11 +38,11 @@ def random_image():
 def random_image():
     try:
         # Ensure the JSON file exists
-        if not os.path.isfile(NEKO_IMAGE):
+        if not os.path.isfile(CUM_IMAGE):
             return jsonify(error="JSON file does not exist"), 404
 
         # Read the JSON file
-        with open(NEKO_IMAGE, 'r') as file:
+        with open(CUM_IMAGE, 'r') as file:
             image_urls = json.load(file)
 
         # Ensure the JSON file is not empty
