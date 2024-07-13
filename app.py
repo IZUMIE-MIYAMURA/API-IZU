@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 # Path to the JSON file containing image URLs
 NEKO_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'neko.json')
+CUM_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'cum.json')
 
 @app.route('/neko', methods=['GET'])
 def random_image():
