@@ -5,7 +5,7 @@ import random
 app = Flask(__name__)
 
 # Folder containing images
-IMAGE_FOLDER = 'images'
+IMAGE_FOLDER = 'neko'
 
 @app.route('/random-image', methods=['GET'])
 def random_image():
