@@ -10,7 +10,7 @@ NEKO_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'neko.json')
 CUM_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'cum.json')
 
 @app.route('/neko', methods=['GET'])
-def random_image():
+def random_neko_image():
     try:
         # Ensure the JSON file exists
         if not os.path.isfile(NEKO_IMAGE):
@@ -33,9 +33,9 @@ def random_image():
         # Log the error and return a 500 response
         print(f"Error occurred: {e}")
         return jsonify(error=str(e)), 500
-        
+
 @app.route('/cum', methods=['GET'])
-def random_image():
+def random_cum_image():
     try:
         # Ensure the JSON file exists
         if not os.path.isfile(CUM_IMAGE):
@@ -58,7 +58,6 @@ def random_image():
         # Log the error and return a 500 response
         print(f"Error occurred: {e}")
         return jsonify(error=str(e)), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)
