@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 IMAGE_FOLDER = os.path.join(os.getcwd(), 'neko')
 
-@app.route('/random-image', methods=['GET'])
+@app.route('/neko', methods=['GET'])
 def random_image():
     try:
         # Debug statement
