@@ -1,20 +1,29 @@
-from flask import Flask, jsonify
+from flask import Flask, send_file, jsonify
+import os
 import random
 
 app = Flask(__name__)
 
+# Folder containing images
+IMAGE_FOLDER = 'images'
 
-image_urls = [
-    'https://example.com/image1.jpg',
-    'https://example.com/image2.jpg',
-    'https://example.com/image3.jpg',
+@app.route('/random-image', methods=['GET'])
+def random_image():
+    # Get list of all files in the image folder
+    images = os.listdir(IMAGE_FOLDER)
     
+    # Filter out non-image files if necessary
+    images = [img for img in images if img.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
 
- 
-@app.route('/random-image')
-def get_random_image():
-    random_image_url = random.choice(image_urls)
-    return jsonify({'imageUrl': random_image_url})
+    # Choose a random image
+    if images:
+        selected_image = random.choice(images)
+        image_path = os.path.join(IMAGE_FOLDER, selected_image)
+        
+        # Return the image file
+        return send_file(image_path, mimetype='image/jpeg')
+    else:
+        return jsonify({"error": "No images found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
