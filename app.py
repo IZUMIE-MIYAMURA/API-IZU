@@ -1,29 +1,34 @@
-from flask import Flask, send_file, jsonify
 import os
 import random
+from flask import Flask, send_file, jsonify
 
 app = Flask(__name__)
 
-# Folder containing images
-IMAGE_FOLDER = 'neko'
+IMAGE_FOLDER = os.path.join(os.getcwd(), 'neko')
 
 @app.route('/random-image', methods=['GET'])
 def random_image():
-    # Get list of all files in the image folder
-    images = os.listdir(IMAGE_FOLDER)
-    
-    # Filter out non-image files if necessary
-    images = [img for img in images if img.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+    try:
+        # Debug statement
+        print(f"IMAGE_FOLDER: {IMAGE_FOLDER}")
+        # Ensure the directory exists
+        if not os.path.isdir(IMAGE_FOLDER):
+            return jsonify(error="Image folder does not exist"), 404
 
-    # Choose a random image
-    if images:
-        selected_image = random.choice(images)
-        image_path = os.path.join(IMAGE_FOLDER, selected_image)
+        images = os.listdir(IMAGE_FOLDER)
+        if not images:
+            return jsonify(error="No images found"), 404
         
-        # Return the image file
+        random_image = random.choice(images)
+        image_path = os.path.join(IMAGE_FOLDER, random_image)
+
+        # Debug statement
+        print(f"Serving image: {image_path}")
         return send_file(image_path, mimetype='image/jpeg')
-    else:
-        return jsonify({"error": "No images found"}), 404
+    except Exception as e:
+        # Debug statement
+        print(f"Error: {e}")
+        return jsonify(error=str(e)), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
