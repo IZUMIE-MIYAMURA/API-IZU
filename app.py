@@ -6,17 +6,17 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 # Path to the JSON file containing image URLs
-JSON_FILE_PATH = os.path.join(os.getcwd(), 'HENTAI', 'neko.json')
+NEKO_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'neko.json')
 
 @app.route('/neko', methods=['GET'])
 def random_image():
     try:
         # Ensure the JSON file exists
-        if not os.path.isfile(JSON_FILE_PATH):
+        if not os.path.isfile(NEKO_IMAGE):
             return jsonify(error="JSON file does not exist"), 404
 
         # Read the JSON file
-        with open(JSON_FILE_PATH, 'r') as file:
+        with open(NEKO_IMAGE, 'r') as file:
             image_urls = json.load(file)
 
         # Ensure the JSON file is not empty
