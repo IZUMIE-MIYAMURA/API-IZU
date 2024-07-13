@@ -4,7 +4,7 @@ from flask import Flask, send_file, jsonify
 
 app = Flask(__name__)
 
-IMAGE_FOLDER = os.path.join(os.getcwd(),'HENTAI','neko')
+IMAGE_FOLDER = os.path.join(os.getcwd(),'HENTAI')
 
 @app.route('/neko', methods=['GET'])
 def random_image():
