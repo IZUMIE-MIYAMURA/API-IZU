@@ -9,7 +9,7 @@ IMAGE_FOLDER = os.path.join(os.getcwd(), 'HENTAI')
 @app.route('/neko', methods=['GET'])
 def serve_random_neko_image():
     try:
-        random_image = random.choice(image_files_neko)
+        random_image = random.choice(neko)
         return send_from_directory(IMAGE_DIRECTORY_NEKO, random_image)
     except IndexError:
         return "No images found in 'neko' directory", 404
