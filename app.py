@@ -60,7 +60,7 @@ def random_cum_image():
         return jsonify(error=str(e)), 500
 
 @app.route('/logo', methods=['GET'])
-def random_neko_image():
+def random_logo_image():
     try:
         # Ensure the JSON file exists
         if not os.path.isfile(LOGO_IMAGE):
