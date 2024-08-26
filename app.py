@@ -67,7 +67,7 @@ def random_logo_image():
             return jsonify(error="JSON file does not exist"), 404
 
         # Read the JSON file
-        with open(NEKO_IMAGE, 'r') as file:
+        with open(LOGO_IMAGE, 'r') as file:
             image_urls = json.load(file)
 
         # Ensure the JSON file is not empty
