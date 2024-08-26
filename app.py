@@ -2,13 +2,13 @@ import os
 import json
 import random
 from flask import Flask, jsonify
-
+from pytube import YouTube
 app = Flask(__name__)
 
 # Path to the JSON file containing image URLs
 NEKO_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'neko.json')
 CUM_IMAGE = os.path.join(os.getcwd(), 'HENTAI', 'cum.json')
-LOGO_IMAGE = os.path.join(os.getcwd(),'HENTAI',"logo.json')
+LOGO_IMAGE = os.path.join(os.getcwd(),'HENTAI','logo.json')
 @app.route('/neko', methods=['GET'])
 def random_neko_image():
     try:
@@ -83,5 +83,36 @@ def random_logo_image():
         # Log the error and return a 500 response
         print(f"Error occurred: {e}")
         return jsonify(error=str(e)), 500
+
+
+
+@app.route('/download_mp3', methods=['POST'])
+def download_mp3():
+    """Download YouTube video as MP3."""
+    try:
+        data = request.json
+        url = data.get('url')
+
+        if not url:
+            return jsonify(error="URL is required"), 400
+
+        # Download the YouTube video
+        yt = YouTube(url)
+        audio_stream = yt.streams.filter(only_audio=True).first()
+
+        # Create a temporary file to save the audio
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        audio_stream.download(filename=temp_file.name)
+
+        # Return the file to the user
+        return send_file(temp_file.name, as_attachment=True, download_name=f"{yt.title}.mp3")
+
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return jsonify(error=str(e)), 500
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
