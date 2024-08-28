@@ -85,35 +85,5 @@ def random_logo_image():
         return jsonify(error=str(e)), 500
 
 
-
-
-@app.route('/download_mp3', methods=['POST'])
-def download_mp3():
-    """Download YouTube video as MP3."""
-    try:
-        data = request.json
-        url = data.get('url')
-
-        if not url:
-            return jsonify(error="URL is required"), 400
-
-        # Download the YouTube video
-        yt = YouTube(url)
-        audio_stream = yt.streams.filter(only_audio=True).first()
-
-        if not audio_stream:
-            return jsonify(error="No audio stream available"), 404
-
-        # Create a temporary file to save the audio
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-        audio_stream.download(filename=temp_file.name)
-
-        # Return the file to the user
-        return send_file(temp_file.name, as_attachment=True, download_name=f"{yt.title}.mp3")
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        return jsonify(error=str(e)), 500
-
-
 if __name__ == '__main__':
     app.run(debug=True)
