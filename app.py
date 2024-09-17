@@ -1,8 +1,8 @@
 import os
 import json
 import random
-from flask import Flask, jsonify
-from pytube import YouTube
+from flask import Flask, request, jsonify
+import requests
 app = Flask(__name__)
 
 # Path to the JSON file containing image URLs
@@ -84,6 +84,24 @@ def random_logo_image():
         print(f"Error occurred: {e}")
         return jsonify(error=str(e)), 500
 
+@app.route('/code/q', methods=['GET'])
+def get_html():
+    try:
+        # Get the URL from the query parameter
+        url = request.args.get('url')
+
+        if not url:
+            return jsonify({'error': 'URL is required'}), 400
+
+        # Fetch the webpage content
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            return response.text, 200
+        else:
+            return jsonify({'error': f'Failed to retrieve page, status code: {response.status_code}'}), response.status_code
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
